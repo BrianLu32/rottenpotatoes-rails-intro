@@ -29,20 +29,21 @@ class MoviesController < ApplicationController
       @movies = Movie.where(rating: @selectRatings)
       session[:ratings] = @selectRatings
       
-      if sort == 'title'
-        @movies = Movie.order('title')
-        redirect_to movie_path(session[:sort])
-      end
-      if sort == 'release_date'
-        @movies = Movie.order('release_date')
-        redirect_to movie_path(session[:sort])
-      end
-    else
-      #@selectRatings = @all_ratings
-      @selectRatings = session[:ratings]
+      redirect_to movie_path(params[:sort])
+    elsif params[:ratings].present? && !params[:sort].present?
+      @selectRatings = params[:ratings].keys
       @movies = Movie.where(rating: @selectRatings)
-      sort = session[:sort]
-      #@movies = Movie.all
+      session[:ratings] = @selectRatings
+      
+      redirect_to movie_path(params[:ratings])
+    elsif !params[:ratings].present? && params[:sort].present?
+      @selectRatings = params[:ratings].keys
+      @movies = Movie.where(rating: @selectRatings)
+      session[:ratings] = @selectRatings
+      
+      redirect_to movie_path(params[:sort])
+    else
+      flash.keep
     end
     
   end
