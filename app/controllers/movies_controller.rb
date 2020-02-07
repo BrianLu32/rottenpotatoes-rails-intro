@@ -17,7 +17,7 @@ class MoviesController < ApplicationController
     
     @order = (order.nil? || order == 'desc') ? 'asc' : 'desc'
     @allRatings = Movie.allRatings
-    @movies = Movie.order("#{sort}")
+    @movies = Movie.order("#{sort} #{order}")
   end
 
   def new
