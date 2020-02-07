@@ -30,6 +30,12 @@ class MoviesController < ApplicationController
         @movies = Movie.where(rating: @selectRatings)
         session[:ratings] = @selectRatings
         
+        if sort == 'title'
+          @movies = Movie.order('title').where(rating: @selectRatings)
+        elsif sort == 'release_date'
+          @movies = Movie.order('release_date').where(rating: @selectRatings)
+        end
+        
         redirect_to movie_path(params[:sort][:ratings])
       elsif params[:ratings].present? && !params[:sort].present?
         @selectRatings = params[:ratings].keys
