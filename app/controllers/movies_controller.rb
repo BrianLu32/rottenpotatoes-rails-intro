@@ -16,11 +16,12 @@ class MoviesController < ApplicationController
     sort = params[:sort]
     if sort == 'title'
       @movies = Movie.order('title')
+      session[:sort] = sort
     end
     if sort == 'release_date'
       @movies = Movie.order('release_date')
+      session[:sort] = sort
     end
-    session[:sort] = sort
     
     @all_ratings = Movie.all_ratings
     if params[:ratings].present?
