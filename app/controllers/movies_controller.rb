@@ -22,7 +22,7 @@ class MoviesController < ApplicationController
       @movies = Movie.order('release_date')
     end
     
-    @all_ratings = Movies.all_ratings
+    @all_ratings = Movie.all_ratings
     if params[:ratings].present?
       @selectRatings = params[:ratings].keys
       @movies = Movie.where(rating: @selectRatings)
