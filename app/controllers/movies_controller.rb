@@ -24,26 +24,35 @@ class MoviesController < ApplicationController
     end
     
     @all_ratings = Movie.all_ratings
-    if params[:ratings].present? && params[:sort].present?
+    if params[:ratings] != nil && params[:sort] != nil
+      if params[:ratings].present? && params[:sort].present?
+        @selectRatings = params[:ratings].keys
+        @movies = Movie.where(rating: @selectRatings)
+        session[:ratings] = @selectRatings
+        
+        redirect_to movie_path(params[:sort])
+      elsif params[:ratings].present? && !params[:sort].present?
+        @selectRatings = params[:ratings].keys
+        @movies = Movie.where(rating: @selectRatings)
+        session[:ratings] = @selectRatings
+        
+        redirect_to movie_path(params[:ratings])
+      elsif !params[:ratings].present? && params[:sort].present?
+        @selectRatings = params[:ratings].keys
+        @movies = Movie.where(rating: @selectRatings)
+        session[:ratings] = @selectRatings
+        
+        redirect_to movie_path(params[:sort])
+      else
+        flash.keep
+      end
+    end
+    
+    if params[:ratings].present?
       @selectRatings = params[:ratings].keys
       @movies = Movie.where(rating: @selectRatings)
-      session[:ratings] = @selectRatings
-      
-      redirect_to movie_path(params[:sort])
-    elsif params[:ratings].present? && !params[:sort].present?
-      @selectRatings = params[:ratings].keys
-      @movies = Movie.where(rating: @selectRatings)
-      session[:ratings] = @selectRatings
-      
-      redirect_to movie_path(params[:ratings])
-    elsif !params[:ratings].present? && params[:sort].present?
-      @selectRatings = params[:ratings].keys
-      @movies = Movie.where(rating: @selectRatings)
-      session[:ratings] = @selectRatings
-      
-      redirect_to movie_path(params[:sort])
     else
-      flash.keep
+      @selectRatings = @all_ratings
     end
     
   end
