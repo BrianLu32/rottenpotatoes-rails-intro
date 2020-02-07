@@ -14,10 +14,10 @@ class MoviesController < ApplicationController
     #@movies = Movie.all
     
     @sort = params[:sort]
-    if @sort == 'title'
+    if sort == 'title'
       @movies = Movie.order('title')
     end
-    if @sort == 'release_date'
+    if sort == 'release_date'
       @movies = Movie.order('release_date')
     end
     #session[:sort] = sort
