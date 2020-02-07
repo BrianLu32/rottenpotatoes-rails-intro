@@ -23,6 +23,7 @@ class MoviesController < ApplicationController
     
     @all_ratings = Movies.all_ratings
     ratings = params[:ratings]
+    @ratings = ratings.nil? ? Movie.all_ratings : ratings.keys
   end
 
   def new
