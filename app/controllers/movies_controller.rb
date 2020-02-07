@@ -20,7 +20,7 @@ class MoviesController < ApplicationController
     if sort == 'release_date'
       @movies = Movie.order('release_date')
     end
-    
+    session[:sort] = sort
     
     @all_ratings = Movie.all_ratings
     if params[:ratings].present?
