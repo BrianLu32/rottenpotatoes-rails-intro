@@ -16,6 +16,8 @@ class MoviesController < ApplicationController
     if sort == 'title'
       @movies = Movie.order('title')
     end
+    
+    sortRating = params[:sortRating]
   end
 
   def new
