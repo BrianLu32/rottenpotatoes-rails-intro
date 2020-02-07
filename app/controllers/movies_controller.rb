@@ -28,7 +28,7 @@ class MoviesController < ApplicationController
       @movies = Movie.where(rating: @selectRatings)
     else
       @selectRatings = @all_ratings
-      @movies = Movie.all
+      #@movies = Movie.all
     end
     
   end
