@@ -27,6 +27,7 @@ class MoviesController < ApplicationController
     if params[:ratings].present?
       @selectRatings = params[:ratings].keys
       @movies = Movie.where(rating: @selectRatings)
+      session[:ratings] = @selectRatings
     else
       @selectRatings = @all_ratings
       #@movies = Movie.all
