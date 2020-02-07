@@ -12,15 +12,15 @@ class MoviesController < ApplicationController
 
   def index
     #@movies = Movie.all
-    hash = Hash.new
     
-    sort = params[:sort]
-    if sort == 'title'
+    @sort = params[:sort]
+    if @sort == 'title'
       @movies = Movie.order('title')
     end
-    if sort == 'release_date'
+    if @sort == 'release_date'
       @movies = Movie.order('release_date')
     end
+    #session[:sort] = sort
     
     @all_ratings = Movie.all_ratings
     if params[:ratings].present?
