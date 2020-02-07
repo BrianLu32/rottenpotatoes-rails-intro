@@ -22,7 +22,7 @@ class MoviesController < ApplicationController
     end
     
     @all_ratings = Movies.all_ratings
-    
+    ratings = params[:ratings]
   end
 
   def new
