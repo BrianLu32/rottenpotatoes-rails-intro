@@ -24,24 +24,24 @@ class MoviesController < ApplicationController
     end
     
     @all_ratings = Movie.all_ratings
-    if params[:ratings].present?
+    if params[:ratings].present && params[:sort].present?
       @selectRatings = params[:ratings].keys
       @movies = Movie.where(rating: @selectRatings)
       session[:ratings] = @selectRatings
+      
+      if sort == 'title'
+        @movies = Movie.order('title')
+        redirect_to movie_path(session[:sort])
+      end
+      if sort == 'release_date'
+        @movies = Movie.order('release_date')
+        redirect_to movie_path(session[:sort])
+      end
     else
       #@selectRatings = @all_ratings
       @selectRatings = session[:ratings]
       @movies = Movie.where(rating: @selectRatings)
       sort = session[:sort]
-      
-      if sort == 'title'
-        @movies = Movie.order('title').where(rating: @selectRatings)
-        session[:sort] = sort
-      end
-      if sort == 'release_date'
-        @movies = Movie.order('release_date').where(rating: @selectRatings)
-        session[:sort] = sort
-      end
       #@movies = Movie.all
     end
     
