@@ -28,7 +28,6 @@ class MoviesController < ApplicationController
       @selectRatings = params[:ratings].keys
       @movies = Movie.where(rating: @selectRatings)
       session[:ratings] = @selectRatings
-      session[:sort] = sort
     else
       #@selectRatings = @all_ratings
       @selectRatings = session[:ratings]
@@ -36,11 +35,11 @@ class MoviesController < ApplicationController
       sort = session[:sort]
       
       if sort == 'title'
-        @movies = Movie.order('title')
+        @movies = Movie.order('title').where(rating: @selectRatings)
         session[:sort] = sort
       end
       if sort == 'release_date'
-        @movies = Movie.order('release_date')
+        @movies = Movie.order('release_date').where(rating: @selectRatings)
         session[:sort] = sort
       end
       #@movies = Movie.all
