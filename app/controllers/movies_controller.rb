@@ -24,12 +24,13 @@ class MoviesController < ApplicationController
     
     @all_ratings = Movies.all_ratings
     if params[:ratings].present?
-      @ratings = params[:ratings].keys
-      @movies = Movie.where(rating: @ratings)
+      @selectRatings = params[:ratings].keys
+      @movies = Movie.where(rating: @selectRatings)
     else
-      @ratings = @all_ratings
+      @selectRatings = @all_ratings
       @movies = Movie.all
     end
+    
   end
 
   def new
