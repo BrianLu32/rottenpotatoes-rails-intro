@@ -31,6 +31,7 @@ class MoviesController < ApplicationController
     else
       #@selectRatings = @all_ratings
       @selectRatings = session[:ratings]
+      @movies = Movie.where(rating: @selectRatings)
       sort = session[:sort]
       #@movies = Movie.all
     end
