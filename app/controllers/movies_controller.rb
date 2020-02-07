@@ -33,6 +33,15 @@ class MoviesController < ApplicationController
       @selectRatings = session[:ratings]
       @movies = Movie.where(rating: @selectRatings)
       sort = session[:sort]
+      
+      if sort == 'title'
+        @movies = Movie.order('title')
+        session[:sort] = sort
+      end
+      if sort == 'release_date'
+        @movies = Movie.order('release_date')
+        session[:sort] = sort
+      end
       #@movies = Movie.all
     end
     
