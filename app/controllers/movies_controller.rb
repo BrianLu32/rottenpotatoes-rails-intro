@@ -21,6 +21,8 @@ class MoviesController < ApplicationController
       @movies = Movie.order('release_date')
     end
     
+    @all_ratings = Movies.all_ratings
+    
   end
 
   def new
