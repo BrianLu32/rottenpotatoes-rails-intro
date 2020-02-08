@@ -50,6 +50,11 @@ class MoviesController < ApplicationController
       if session[:ratings] == nil
         @movies = Movie.order(sort)
         session[:sort] = sort
+        if sort == 'title'
+          @color = 'hilite'
+        elsif sort == 'release_date'
+          @color2 = 'hilite'
+        end
       elsif session[:ratings] != nil
         @selectRatings = session[:ratings]
         @movies = Movie.where(rating: @selectRatings).order(sort)
