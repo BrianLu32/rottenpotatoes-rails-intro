@@ -42,7 +42,6 @@ class MoviesController < ApplicationController
       elsif !params[:ratings].present? && params[:sort].present?
         sort = params[:sort]
         if session[:ratings] == nil
-          @selectRatings = params[:ratings].keys
           @movies = Movie.order(sort)
           session[:sort] = sort
         elsif session[:ratings] != nil
