@@ -98,6 +98,7 @@ class MoviesController < ApplicationController
         
       else
         flash.keep
+        @movies = Movie.where(rating: @selectRatings)
       end
     end
     
