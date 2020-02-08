@@ -25,7 +25,11 @@ class MoviesController < ApplicationController
         @movies = Movie.where(rating: @selectRatings).order(sort)
         session[:ratings] = @selectRatings
         session[:sort] = sort
-        @color = 'hilite'
+        if sort == 'title'
+          @color = 'hilite'
+        elsif sort == 'release_date'
+          @color2 = 'hilite'
+        end
         
       elsif params[:ratings].present? && !params[:sort].present?
         if session[:sort] == nil
@@ -38,7 +42,11 @@ class MoviesController < ApplicationController
           @movies = Movie.where(rating: @selectRatings).order(sort)
           session[:ratings] = @selectRatings
           session[:sort] = sort
-          @color = 'hilite'
+          if sort == 'title'
+            @color = 'hilite'
+          elsif sort == 'release_date'
+            @color2 = 'hilite'
+          end
         end
         
       elsif !params[:ratings].present? && params[:sort].present?
@@ -51,7 +59,11 @@ class MoviesController < ApplicationController
           @movies = Movie.where(rating: @selectRatings).order(sort)
           session[:ratings] = @selectRatings
           session[:sort] = sort
-          @color = 'hilite'
+          if sort == 'title'
+            @color = 'hilite'
+          elsif sort == 'release_date'
+            @color2 = 'hilite'
+          end
         end
       
       elsif !params[:ratings].present? && !params[:sort].present?
@@ -61,16 +73,27 @@ class MoviesController < ApplicationController
           @movies = Movie.where(rating: @selectRatings).order(sort)
           session[:ratings] = @selectRatings
           session[:sort] = sort
-          @color = 'hilite'
+          if sort == 'title'
+            @color = 'hilite'
+          elsif sort == 'release_date'
+            @color2 = 'hilite'
+          end
+          
         elsif session[:ratings] != nil && session[:sort] == nil
           @selectRatings = session[:ratings]
           @movies = Movie.where(rating: @selectRatings)
           session[:ratings] = @selectRatings
+          
         elsif session[:ratings] == nil && session[:sort] != nil
           sort = session[:sort]
           @movies = Movie.order(sort)
           session[:sort] = sort
-          @color = 'hilite'
+          if sort == 'title'
+            @color = 'hilite'
+          elsif sort == 'release_date'
+            @color2 = 'hilite'
+          end
+          
         elsif session[:ratings] == nil && session[:sort] == nil
           @movies = Movie.all
         end
