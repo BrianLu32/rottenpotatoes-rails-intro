@@ -11,10 +11,10 @@ class MoviesController < ApplicationController
   end
 
   def index
-    #@movies = Movie.all
-    
+  
     @all_ratings = Movie.all_ratings
     @selectRatings = @all_ratings
+    @movies = Movie.where(rating: @selectRatings)
     if params[:ratings] != nil || params[:sort] != nil
       
       if params[:ratings].present? && params[:sort].present?
