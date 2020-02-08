@@ -16,6 +16,7 @@ class MoviesController < ApplicationController
     sort = params[:sort]
     
     @all_ratings = Movie.all_ratings
+    @selectRatings = @all_ratings
     if params[:ratings] != nil || params[:sort] != nil
       
       if params[:ratings].present? && params[:sort].present?
