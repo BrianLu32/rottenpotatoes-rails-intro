@@ -14,19 +14,12 @@ class MoviesController < ApplicationController
     @movies = Movie.all
     
     sort = params[:sort]
-    if sort == 'title'
-      @movies = Movie.order('title')
-      session[:sort] = sort
-    end
-    if sort == 'release_date'
-      @movies = Movie.order('release_date')
-      session[:sort] = sort
-    end
     
     @all_ratings = Movie.all_ratings
     if params[:ratings] != nil || params[:sort] != nil
       
       if params[:ratings].present? && params[:sort].present?
+        sort = params[:sort]
         @selectRatings = params[:ratings].keys
         @movies = Movie.where(rating: @selectRatings).order(sort)
         session[:ratings] = @selectRatings
@@ -46,6 +39,7 @@ class MoviesController < ApplicationController
         end
         
       elsif !params[:ratings].present? && params[:sort].present?
+        sort = params[:sort]
         if session[:ratings] == nil
           @selectRatings = params[:ratings].keys
           @movies = Movie.order(sort)
@@ -80,13 +74,6 @@ class MoviesController < ApplicationController
         flash.keep
       end
       
-    end
-    
-    if params[:ratings].present?
-      @selectRatings = params[:ratings].keys
-      @movies = Movie.where(rating: @selectRatings)
-    else
-      @selectRatings = @all_ratings
     end
     
   end
