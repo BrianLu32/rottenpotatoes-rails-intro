@@ -45,7 +45,7 @@ class MoviesController < ApplicationController
           @movies = Movie.order(sort)
           session[:sort] = sort
         elsif session[:ratings] != nil
-          @selectRatings = session[:ratings].keys
+          @selectRatings = session[:ratings]
           @movies = Movie.where(rating: @selectRatings).order(sort)
           session[:ratings] = @selectRatings
           session[:sort] = sort
@@ -73,7 +73,6 @@ class MoviesController < ApplicationController
       else
         flash.keep
       end
-      
     end
     
   end
