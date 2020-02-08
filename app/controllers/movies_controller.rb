@@ -11,7 +11,6 @@ class MoviesController < ApplicationController
   end
 
   def index
-  
     @all_ratings = Movie.all_ratings
     @selectRatings = @all_ratings
     @movies = Movie.where(rating: @selectRatings)
