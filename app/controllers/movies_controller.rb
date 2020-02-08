@@ -15,10 +15,26 @@ class MoviesController < ApplicationController
     @all_ratings = Movie.all_ratings
     @selectRatings = @all_ratings
     @movies = Movie.where(rating: @selectRatings)
-    if params[:ratings] != nil || params[:sort] != nil
       
-      if params[:ratings].present? && params[:sort].present?
-        sort = params[:sort]
+    if params[:ratings].present? && params[:sort].present?
+      sort = params[:sort]
+      @selectRatings = params[:ratings].keys
+      @movies = Movie.where(rating: @selectRatings).order(sort)
+      session[:ratings] = @selectRatings
+      session[:sort] = sort
+      if sort == 'title'
+        @color = 'hilite'
+      elsif sort == 'release_date'
+        @color2 = 'hilite'
+      end
+      
+    elsif params[:ratings].present? && !params[:sort].present?
+      if session[:sort] == nil
+        @selectRatings = params[:ratings].keys
+        @movies = Movie.where(rating: @selectRatings)
+        session[:ratings] = @selectRatings
+      elsif session[:sort] != nil
+        sort = session[:sort]
         @selectRatings = params[:ratings].keys
         @movies = Movie.where(rating: @selectRatings).order(sort)
         session[:ratings] = @selectRatings
@@ -28,78 +44,60 @@ class MoviesController < ApplicationController
         elsif sort == 'release_date'
           @color2 = 'hilite'
         end
-        
-      elsif params[:ratings].present? && !params[:sort].present?
-        if session[:sort] == nil
-          @selectRatings = params[:ratings].keys
-          @movies = Movie.where(rating: @selectRatings)
-          session[:ratings] = @selectRatings
-        elsif session[:sort] != nil
-          sort = session[:sort]
-          @selectRatings = params[:ratings].keys
-          @movies = Movie.where(rating: @selectRatings).order(sort)
-          session[:ratings] = @selectRatings
-          session[:sort] = sort
-          if sort == 'title'
-            @color = 'hilite'
-          elsif sort == 'release_date'
-            @color2 = 'hilite'
-          end
-        end
-        
-      elsif !params[:ratings].present? && params[:sort].present?
-        sort = params[:sort]
-        if session[:ratings] == nil
-          @movies = Movie.order(sort)
-          session[:sort] = sort
-        elsif session[:ratings] != nil
-          @selectRatings = session[:ratings]
-          @movies = Movie.where(rating: @selectRatings).order(sort)
-          session[:ratings] = @selectRatings
-          session[:sort] = sort
-          if sort == 'title'
-            @color = 'hilite'
-          elsif sort == 'release_date'
-            @color2 = 'hilite'
-          end
-        end
+      end
       
-      elsif !params[:ratings].present? && !params[:sort].present?
-        if session[:ratings] != nil && session[:sort] != nil
-          sort = session[:sort]
-          @selectRatings = session[:ratings]
-          @movies = Movie.where(rating: @selectRatings).order(sort)
-          session[:ratings] = @selectRatings
-          session[:sort] = sort
-          if sort == 'title'
-            @color = 'hilite'
-          elsif sort == 'release_date'
-            @color2 = 'hilite'
-          end
-          
-        elsif session[:ratings] != nil && session[:sort] == nil
-          @selectRatings = session[:ratings]
-          @movies = Movie.where(rating: @selectRatings)
-          session[:ratings] = @selectRatings
-          
-        elsif session[:ratings] == nil && session[:sort] != nil
-          sort = session[:sort]
-          @movies = Movie.order(sort)
-          session[:sort] = sort
-          if sort == 'title'
-            @color = 'hilite'
-          elsif sort == 'release_date'
-            @color2 = 'hilite'
-          end
-          
-        elsif session[:ratings] == nil && session[:sort] == nil
-          @movies = Movie.where(rating: @selectRatings)
+    elsif !params[:ratings].present? && params[:sort].present?
+      sort = params[:sort]
+      if session[:ratings] == nil
+        @movies = Movie.order(sort)
+        session[:sort] = sort
+      elsif session[:ratings] != nil
+        @selectRatings = session[:ratings]
+        @movies = Movie.where(rating: @selectRatings).order(sort)
+        session[:ratings] = @selectRatings
+        session[:sort] = sort
+        if sort == 'title'
+          @color = 'hilite'
+        elsif sort == 'release_date'
+          @color2 = 'hilite'
+        end
+      end
+    
+    elsif !params[:ratings].present? && !params[:sort].present?
+      if session[:ratings] != nil && session[:sort] != nil
+        sort = session[:sort]
+        @selectRatings = session[:ratings]
+        @movies = Movie.where(rating: @selectRatings).order(sort)
+        session[:ratings] = @selectRatings
+        session[:sort] = sort
+        if sort == 'title'
+          @color = 'hilite'
+        elsif sort == 'release_date'
+          @color2 = 'hilite'
         end
         
-      else
-        flash.keep
+      elsif session[:ratings] != nil && session[:sort] == nil
+        @selectRatings = session[:ratings]
+        @movies = Movie.where(rating: @selectRatings)
+        session[:ratings] = @selectRatings
+        
+      elsif session[:ratings] == nil && session[:sort] != nil
+        sort = session[:sort]
+        @movies = Movie.order(sort)
+        session[:sort] = sort
+        if sort == 'title'
+          @color = 'hilite'
+        elsif sort == 'release_date'
+          @color2 = 'hilite'
+        end
+        
+      elsif session[:ratings] == nil && session[:sort] == nil
         @movies = Movie.where(rating: @selectRatings)
       end
+      
+    else
+      flash.keep
+      @movies = Movie.where(rating: @selectRatings)
     end
     
   end
