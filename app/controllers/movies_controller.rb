@@ -11,7 +11,7 @@ class MoviesController < ApplicationController
   end
 
   def index
-    @movies = Movie.all
+    #@movies = Movie.all
     
     @all_ratings = Movie.all_ratings
     @selectRatings = @all_ratings
@@ -66,9 +66,9 @@ class MoviesController < ApplicationController
       
       elsif !params[:ratings].present? && !params[:sort].present?
         if session[:ratings] != nil && session[:sort] != nil
-          #sort = session[:sort]
-          #@selectRatings = session[:ratings]
-          #@movies = Movie.where(rating: @selectRatings).order(sort)
+          sort = session[:sort]
+          @selectRatings = session[:ratings]
+          @movies = Movie.where(rating: @selectRatings).order(sort)
           session[:ratings] = @selectRatings
           session[:sort] = sort
           if sort == 'title'
@@ -93,7 +93,7 @@ class MoviesController < ApplicationController
           end
           
         elsif session[:ratings] == nil && session[:sort] == nil
-          @movies = Movie.all
+          @movies = Movie.where(rating: @selectRatings)
         end
         
       else
