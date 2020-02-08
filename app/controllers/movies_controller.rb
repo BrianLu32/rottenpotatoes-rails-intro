@@ -13,8 +13,6 @@ class MoviesController < ApplicationController
   def index
     #@movies = Movie.all
     
-    sort = params[:sort]
-    
     @all_ratings = Movie.all_ratings
     @selectRatings = @all_ratings
     if params[:ratings] != nil || params[:sort] != nil
