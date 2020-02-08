@@ -66,9 +66,9 @@ class MoviesController < ApplicationController
       
       elsif !params[:ratings].present? && !params[:sort].present?
         if session[:ratings] != nil && session[:sort] != nil
-          sort = session[:sort]
-          @selectRatings = session[:ratings]
-          @movies = Movie.where(rating: @selectRatings).order(sort)
+          #sort = session[:sort]
+          #@selectRatings = session[:ratings]
+          #@movies = Movie.where(rating: @selectRatings).order(sort)
           session[:ratings] = @selectRatings
           session[:sort] = sort
           if sort == 'title'
